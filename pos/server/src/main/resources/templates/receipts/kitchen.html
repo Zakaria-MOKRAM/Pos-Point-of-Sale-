@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <style>
+      body {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-family: Courier New, sans-serif;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+
+  <table style="width: 100%">
+    <tr>
+      <td style="text-align: left">
+          <span>Commande: </span>
+          <span style="font-weight: bold" th:text="${order.id}"></span>
+      </td>
+      <td style="text-align: right; font-weight: bold;" th:text="${date}"></td>
+    </tr>
+  </table>
+
+  <table style="width: 100%">
+    <tr>
+      <td style="text-align: left" th:if="${orderType == 'AT_THE_TABLE'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">À TABLE</span>
+      </td>
+      <td style="text-align: left" th:if="${orderType == 'IN_HOUSE'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">SUR PLACE</span>
+      </td>
+      <td style="text-align: left" th:if="${orderType == 'TAKEAWAY'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">À EMPORTER</span>
+      </td>
+      <td style="text-align: left" th:if="${orderType == 'DELIVERY'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">LIVRAISON</span>
+      </td>
+      <td style="text-align: right" th:if="${orderType == 'AT_THE_TABLE'}">
+          <span>TABLE: </span>
+          <span style="font-weight: bold" th:text="${table}"></span>
+      </td>
+    </tr>
+  </table>
+
+  <table style="width: 100%">
+    <tr><td style="text-align: left">
+        <span>Serveur: </span>
+        <span style="font-weight: bold">John</span>
+    </td></tr>
+  </table>
+
+  <br /><br />
+
+  <table th:each="i : ${items}">
+      <th colspan="3" style="font-weight: bold">
+          <span th:text="${i.quantity + '&nbsp;'}"></span>
+          <span th:text="${i.name}"></span>
+      </th>
+      <tr th:each="ic: ${i.customizations}" th:if="${i.customizations.size > 0}">
+          <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+          <span th:text="${'+ &nbsp;' + ic.quantity + '&nbsp;&nbsp;'}"></span>
+          <span th:text="${ic.name}"></span>
+      </tr>
+  </table>
+
+  <br /><br />
+
+  </body>
+</html>

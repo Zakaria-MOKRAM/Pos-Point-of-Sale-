@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        text-transform: uppercase;
+        font-weight: 600;
+        font-family: Courier New, sans-serif;
+        font-size: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center;">
+      <img alt="Image" src="http://localhost:8082/api/images/brand.jpg" style="width: 30%" />
+    </div>
+
+    <p style="text-align: center; font-weight: bold">Tasty Foods Restaurant</p>
+    <br />
+
+    <table style="width: 100%">
+      <tr>
+        <td style="text-align: left">
+          <span>Commande: </span>
+          <span style="font-weight: bold" th:text="${order.id}"></span>
+        </td>
+        <td style="text-align: right; font-weight: bold;" th:text="${date}"></td>
+      </tr>
+    </table>
+
+    <table style="width: 100%">
+      <tr>
+        <td style="text-align: left" th:if="${orderType == 'AT_THE_TABLE'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">À TABLE</span>
+        </td>
+        <td style="text-align: left" th:if="${orderType == 'IN_HOUSE'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">SUR PLACE</span>
+        </td>
+        <td style="text-align: left" th:if="${orderType == 'TAKEAWAY'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">À EMPORTER</span>
+        </td>
+        <td style="text-align: left" th:if="${orderType == 'DELIVERY'}">
+          <span>TYPE: </span>
+          <span style="font-weight: bold">LIVRAISON</span>
+        </td>
+        <td style="text-align: right" th:if="${orderType == 'AT_THE_TABLE'}">
+          <span>TABLE: </span>
+          <span style="font-weight: bold" th:text="${table}"></span>
+        </td>
+      </tr>
+    </table>
+
+    <table style="width: 100%">
+      <tr th:if="${order.guests}"><td style="text-align: left">
+        <span>NBRE DE PERSONNES: </span>
+        <span style="font-weight: bold" th:text="${order.guests}"></span>
+      </td></tr>
+    </table>
+
+    <table style="width: 100%">
+      <tr><td style="text-align: left">
+        <span>Serveur: </span>
+        <span style="font-weight: bold" th:text="${waiter}"></span>
+      </td></tr>
+    </table>
+
+    <br />
+
+<table style="width: 100%">
+  <tr colspan="3">
+    <td style="font-weight: bold;"></td>
+
+    <td style="width: 10%; text-align: center;font-weight: bold;">
+      <span>QTE</span>
+    </td>
+
+    <td style="width: 30%; text-align: right; font-weight: bold">
+      <span>TOTAL</span>
+    </td>
+  </tr>
+</table>
+    <table style="width: 100%" th:each="i : ${items}">
+
+      <tr colspan="3">
+        <td style="font-weight: bold;">
+          <span th:text="${i.name}"></span>
+        </td>
+
+        <td style="width: 10%; text-align: center;">
+          <span th:text="${i.quantity}"></span>
+        </td>
+
+        <td style="width: 30%; text-align: right; font-weight: bold">
+          <span th:text="${ i.totalPrice }"></span>
+        </td>
+      </tr>
+
+      <tr th:each="ic: ${i.customizations}" th:if="${i.customizations.size > 0}">
+        <td>
+          <span>&nbsp;&nbsp; + </span>
+          <span th:text="${ic.name}"></span>
+        </td>
+
+        <td style="width: 10%; text-align: center;">
+          <span th:text="${ic.quantity}"></span>
+        </td>
+
+        <td style="width: 30%; text-align: right; font-weight: bold;">
+          <span th:text="${ ic.totalPrice }"></span>
+        </td>
+      </tr>
+    </table>
+
+    <br />
+
+    <table style="width: 100%;font-weight: bold;">
+      <tr th:if="${!hasDiscount && !avecTVA}">
+        <td colspan="3">Total à Payer</td>
+        <td style="text-align: right;">
+          <span th:text="${ subTotal }"></span>
+        </td>
+      </tr>
+      <tr th:if="${hasDiscount || avecTVA}">
+        <td colspan="3">TOTAL</td>
+        <td style="text-align: right;">
+          <span th:text="${ subTotal }"></span>
+        </td>
+      </tr>
+      <tr th:if="${hasDiscount}">
+        <td colspan="3">Remise</td>
+        <td style="text-align: right;">
+          <span th:text="${ '- ' + discount }"></span>
+        </td>
+      </tr>
+      <tr th:if="${hasDiscount}">
+        <td colspan="3" >Total Après Remise</td>
+        <td style="text-align: right;">
+          <span th:text="${ totalToPay }"></span>
+        </td>
+      </tr>
+      <tr th:if="${avecTVA}">
+        <td colspan="3" th:text="${ 'TVA' + '(' + tvaPercentage + '%' + ')'}"></td>
+        <td style="text-align: right;">
+          <span th:text="${ tva }"></span>
+        </td>
+      </tr>
+      <tr th:if="${avecTVA}">
+        <td colspan="3">Total TTC</td>
+        <td style="text-align: right;">
+          <span th:text="${ ttc }"></span>
+        </td>
+      </tr>
+    </table>
+
+    <br /><br /><br />
+
+    <h5 style="text-align: center; margin: 0;">Merci pour votre visite</h5>
+    <h5 style="text-align: center; margin: 0;">Bon appétit</h5>
+
+    <br /><br />
+  </body>
+</html>
